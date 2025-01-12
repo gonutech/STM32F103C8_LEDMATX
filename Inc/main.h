@@ -100,6 +100,8 @@ void Error_Handler(void);
 #define SEG7LED_SPI2_CS_GPIO_Port GPIOB
 #define SEG7LED_SPI2_DIO_Pin GPIO_PIN_15
 #define SEG7LED_SPI2_DIO_GPIO_Port GPIOB
+#define ButtonIn_Pin GPIO_PIN_8
+#define ButtonIn_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -250,10 +250,11 @@ uint8_t genrandom3bit(void) {
     random4sum[1] = randomadc & 0x07; randomadc = randomadc >> 3;
     random4sum[2] = randomadc & 0x07; randomadc = randomadc >> 3;
     for (int i = 0; i < 3; i++) {
-      randomvalret = randomvalret + random4sum[i];
+      randomvalret = randomvalret*2 + random4sum[i];
     }
+    randomvalret &= 0x07;
     
-    while (randomvalret > 6) {
+    if (randomvalret > 6) {
       randomvalret = 6;
     }
     return randomvalret;

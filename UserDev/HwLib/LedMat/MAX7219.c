@@ -21,7 +21,7 @@ uint8_t OFF=0x00;
 
 const uint8_t InitCommands[10][2]={
 		{0x09,0x00}, // Set no decode mode
-		{0x0A,0x0A}, // Set intensity to some value, min = 0, max = 0x0F
+		{0x0A,0x0C}, // Set intensity to some value, min = 0, max = 0x0F
 		{0x0B,0x07}, // Set the scan limit to display digits 0,1,2,3,4,5,6,7
 		{0x0C,0x01}, // Set normal operation mode in shutdown register
 		{0x0F,0x00}  // Set display test register format to normal operation
