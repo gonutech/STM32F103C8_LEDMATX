@@ -39,11 +39,11 @@ typedef struct {
 } STATEAFFECT_t;
 
 STATEAFFECT_t ledMatProcessInstance;
-
+uint8_t randomgentime = 0;
 #define DBSTATEBUFSIZE     11
 #define DBSTATEBUFNUM      9
 uint8_t DebugPrintState[DBSTATEBUFSIZE] = "CurrStateX\n";
-
+uint8_t colselectedid[5] = {0, 0, 0, 0, 0}; // 0 is not valid col so that init with not valid value
 /// @brief Led7Seg scanner call back function
 /// @param [in] None
 /// @param [out] None
@@ -140,6 +140,7 @@ uint16_t ledMatI_LedScannerTask(void) {
       if (CurrentButtonState == BUTTON_ON2OFF) {
         ledMatProcessInstance.LedMatProcID    = P1_CLEAR_DISPLAY;
         ledMatProcessInstance.LedMatProcState = LEDMATPROC_READY;
+        
       } else {
         /* Let it idle */
       }
@@ -252,7 +253,6 @@ void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc) {
 }
 
 void ledMat_P4RandomNumberGen(void) {
-  static uint8_t randomgentime = 0;
   uint8_t randomCol; // This one value from 1-6 shifting from 0-5 => 3bit
   uint8_t randomColValIndex; // This one value from 0-7           => 3bit
   uint32_t randomadc;
@@ -326,7 +326,7 @@ uint8_t genrandom3bit(void) {
     return randomvalret;
 }
 
-uint8_t colselectedid[5];
+
 uint8_t check4existing(uint8_t data) {
   uint8_t retstate = 0;
   for (int i = 0; i < 5; i++) {
@@ -392,6 +392,12 @@ void ledMat_P5KeepSingleLed(void) {
   uartDebugI_PrintDebugInfo(counterselectedbuff,12);
   if (colselectedid_index == 5) {
     ledMatProcessInstance.LedMatProcState = LEDMATPROC_FINISHED;
+    // Clean data
+    for (int k = 0; k < 5; k++) colselectedid[k] = 0;
+    colselectedid_index = 0;
+    partialrandom = 0;
+    timecountrandom = 0;
+    randomgentime = 0;
   }
 }
 
