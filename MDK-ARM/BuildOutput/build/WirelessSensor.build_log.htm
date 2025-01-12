@@ -27,8 +27,11 @@ Project File Date:  01/12/2025
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil\ARM\ARMCC\Bin'
 Build target 'WirelessSensor'
-compiling MAX7219.c...
+compiling Seg7LedMain.c...
+..\UserDev\HwLib\SPISeg7LED\Seg7LedMain.c(280): warning:  #177-D: variable "col2clear"  was declared but never referenced
+    uint8_t col2clear[6] = {1,2,3,4,5,6};
+..\UserDev\HwLib\SPISeg7LED\Seg7LedMain.c: 1 warning, 0 errors
 linking...
-Program Size: Code=8932 RO-data=468 RW-data=460 ZI-data=5580  
+Program Size: Code=12288 RO-data=468 RW-data=624 ZI-data=5624  
 FromELF: creating hex file...
 After Build - User command #1: BuildOutput\copy_hex.bat

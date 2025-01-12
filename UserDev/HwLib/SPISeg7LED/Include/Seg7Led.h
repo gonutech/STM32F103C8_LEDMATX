@@ -5,13 +5,15 @@
 #define __SEG7LED_H__
 
 #include "stdint.h"
+#include "stm32f1xx_hal.h"
 
+extern ADC_HandleTypeDef hadc1;
 /// Interface function
 void ledMatI_LedScannerInit(void);
 
 // Fast task 1ms
-void ledMatI_LedScannerTask(void);
+uint16_t ledMatI_LedScannerTask(void);
 // Slow task 1s
-void ledMatI_UpdateData(uint16_t temp_int, uint16_t humi_int);
+void ledMatI_UpdateData(void);
 
 #endif /* __SEG7LED_H__ */

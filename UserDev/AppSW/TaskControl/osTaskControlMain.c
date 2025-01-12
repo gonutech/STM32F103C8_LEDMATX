@@ -38,7 +38,7 @@ void startLed7SegFastTask1ms(void const *argument) {
   const TickType_t xFrequency = 1;
   /// Counter for updating sensor info
   uint16_t tick1msCount = 0;
-  
+  uint16_t waitTimeProc = 100;
   /// Casting unused argument
   (void)argument;
   
@@ -48,12 +48,13 @@ void startLed7SegFastTask1ms(void const *argument) {
   /// Loop forever
   while (1) {
     /// Fast task called
-    ledMatI_LedScannerTask();
+    waitTimeProc = ledMatI_LedScannerTask();
+    if (waitTimeProc < 50) waitTimeProc = 50; // Protect too fast processing
     /// Counting for synch data get set
-    if (tick1msCount++ >= 500) {
+    if (tick1msCount++ >= waitTimeProc) {
       tick1msCount = 0;
       // Slow task inside fast task
-      ledMatI_UpdateData(1,1);
+      ledMatI_UpdateData();
     }
     /// Delay until
     vTaskDelayUntil(&xNextWakeTime, xFrequency);
