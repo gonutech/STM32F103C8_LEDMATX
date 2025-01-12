@@ -8,6 +8,7 @@
 #include "stm32f1xx_hal.h"
 
 extern ADC_HandleTypeDef hadc1;
+
 /// Interface function
 void ledMatI_LedScannerInit(void);
 

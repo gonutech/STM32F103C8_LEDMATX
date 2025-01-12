@@ -94,14 +94,14 @@ void Error_Handler(void);
 #define U2Debug_MCUTx_GPIO_Port GPIOA
 #define U2Debug_MCURx_Pin GPIO_PIN_3
 #define U2Debug_MCURx_GPIO_Port GPIOA
+#define BUTTON_Pin GPIO_PIN_12
+#define BUTTON_GPIO_Port GPIOB
 #define SEG7LED_SPI2_CLK_Pin GPIO_PIN_13
 #define SEG7LED_SPI2_CLK_GPIO_Port GPIOB
 #define SEG7LED_SPI2_CS_Pin GPIO_PIN_14
 #define SEG7LED_SPI2_CS_GPIO_Port GPIOB
 #define SEG7LED_SPI2_DIO_Pin GPIO_PIN_15
 #define SEG7LED_SPI2_DIO_GPIO_Port GPIOB
-#define ButtonIn_Pin GPIO_PIN_8
-#define ButtonIn_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

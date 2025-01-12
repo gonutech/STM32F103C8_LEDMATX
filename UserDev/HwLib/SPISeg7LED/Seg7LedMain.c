@@ -5,9 +5,23 @@
 #include "MAX7219.h"
 #include "UartDebug.h"
 
+void buttonHandler(void);
+
+typedef enum {
+  BUTTON_OFF = 0, // Button released
+  BUTTON_OFF2ON,  // Button pressed from release
+  BUTTON_ON,      // Button pressed state
+  BUTTON_ON2OFF   // Button released from press
+} BUTTON_STATE_t;
+
+BUTTON_STATE_t CurrentButtonState = BUTTON_OFF;
+BUTTON_STATE_t PrevButtonState    = BUTTON_OFF;
+uint8_t PressButtonTime = 0;
+
 typedef enum  {
   P1_CLEAR_DISPLAY = 0,
   P2_SNAKE_AFFECT,
+  P21_WAIT4BUTTON,
   P3_NUMCOUNT,
   P4_RANDOMNUMBER,
   P5_KEEPSINGLECOL,
@@ -54,6 +68,7 @@ uint16_t ledMatI_LedScannerTask(void) {
   uint8_t CurrentProcInstance = ledMatProcessInstance.LedMatProcID;
   uint8_t CurrentProcState    = ledMatProcessInstance.LedMatProcState;
   uint16_t WaitTimeRet = 100; // Set 100ms as default durration
+  
   switch (CurrentProcInstance) {
     case P1_CLEAR_DISPLAY:
       if (CurrentProcState == LEDMATPROC_FINISHED) {
@@ -69,12 +84,21 @@ uint16_t ledMatI_LedScannerTask(void) {
       break;
     case P2_SNAKE_AFFECT:
       if (CurrentProcState == LEDMATPROC_FINISHED) {
-        ledMatProcessInstance.LedMatProcID    = P3_NUMCOUNT;
+        ledMatProcessInstance.LedMatProcID    = P21_WAIT4BUTTON;
         ledMatProcessInstance.LedMatProcState = LEDMATPROC_READY;
         DebugPrintState[DBSTATEBUFNUM] = CurrentProcInstance+0x30;
         uartDebugI_PrintDebugInfo(DebugPrintState, DBSTATEBUFSIZE);
       } else {
         /* Wait for process finish */
+      }
+      WaitTimeRet = 50; // 50ms
+      break;
+    case P21_WAIT4BUTTON:
+      if (CurrentButtonState == BUTTON_OFF2ON) {
+        ledMatProcessInstance.LedMatProcID    = P3_NUMCOUNT;
+        ledMatProcessInstance.LedMatProcState = LEDMATPROC_READY;
+      } else {
+        /* Wait for button */
       }
       WaitTimeRet = 50; // 50ms
       break;
@@ -113,6 +137,12 @@ uint16_t ledMatI_LedScannerTask(void) {
       WaitTimeRet = 700;
       break;
     case P6_IDLERUN:
+      if (CurrentButtonState == BUTTON_ON2OFF) {
+        ledMatProcessInstance.LedMatProcID    = P1_CLEAR_DISPLAY;
+        ledMatProcessInstance.LedMatProcState = LEDMATPROC_READY;
+      } else {
+        /* Let it idle */
+      }
       WaitTimeRet = 50;
       break;
     default:
@@ -121,10 +151,46 @@ uint16_t ledMatI_LedScannerTask(void) {
   }
   
   
+  // Button handler
+  buttonHandler();
+  
   return WaitTimeRet;
 }
 
+void buttonHandler(void) {
+  GPIO_PinState PinState;
+  static uint8_t slowdowtime = 0;
+  
+  BUTTON_STATE_t currButtonS;
+  
+  PinState = HAL_GPIO_ReadPin(GPIOB, BUTTON_Pin);
+  HAL_GPIO_WritePin(GPIOC, DEBUG_LED_Pin, PinState);
+  
+  if (PinState == GPIO_PIN_RESET) currButtonS = BUTTON_OFF;
+  if (PinState == GPIO_PIN_SET)   currButtonS = BUTTON_ON;
 
+  // Scan button with lower frequency
+  if (slowdowtime++ >= 100) {
+    slowdowtime = 0;
+    // Process additional button state
+    if (currButtonS == BUTTON_ON) {
+      if (PrevButtonState == BUTTON_OFF) {
+        CurrentButtonState = BUTTON_OFF2ON;
+      } else {
+        CurrentButtonState = BUTTON_ON;
+      }
+    }
+    if (currButtonS == BUTTON_OFF) {
+      if (PrevButtonState == BUTTON_ON) {
+        CurrentButtonState = BUTTON_ON2OFF;
+      } else {
+        CurrentButtonState = BUTTON_OFF;
+      }
+    }
+    
+    PrevButtonState = currButtonS;
+  }
+}
 
 
 
@@ -253,7 +319,7 @@ uint8_t genrandom3bit(void) {
       randomvalret = randomvalret*2 + random4sum[i];
     }
     randomvalret &= 0x07;
-    
+     
     if (randomvalret > 6) {
       randomvalret = 6;
     }
