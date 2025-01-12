@@ -2,7 +2,7 @@
 /// @brief OS task control support main function definition
 
 #include "osTaskControl.h"
-
+#include "Seg7Led.h"
 #include "UartDebug.h"
 
 #define QUEUE_PUT_TIMEOUT   0
@@ -20,30 +20,10 @@ void startSensorSlowTask1s(void const * argument) {
   TickType_t xNextWakeTime;
   /// Create task with 1Hz exactly
   const TickType_t xFrequency = 1000;
-  // TH sensor buffer creating
-  THSensorInfo_t sensorInfo;
-  
-  uint16_t temp_ix10, humi_ix10;
-  /// Cast unused argument
-  (void)argument;
-  
-  /// Initialilze module 
-  sensorHDC1080I_THSensorInit();
-  
-  /// Wait for device waked up and config fearture
-  vTaskDelay(20);
-  sensorHDC1080I_THSensorConfig();
-  
+
   /// Loop forever
   while (1) {
     /// Sensor slow task function interface called
-    sensorHDC1080I_THSensorSlowTask(&temp_ix10, &humi_ix10);
-    sensorInfo.temperature = temp_ix10;
-    sensorInfo.humidity    = humi_ix10;
-    uart_debug("Temperature: %d\n", sensorInfo.temperature);
-    uart_debug("Humidity: %d\n", sensorInfo.humidity);
-    /// Put data from t/h sensor to queue
-    xQueueSend(xTHSensorQueue, (void*)&sensorInfo, QUEUE_PUT_TIMEOUT);
     /// Delay until
     vTaskDelayUntil(&xNextWakeTime, xFrequency);
   }
@@ -59,27 +39,21 @@ void startLed7SegFastTask1ms(void const *argument) {
   /// Counter for updating sensor info
   uint16_t tick1msCount = 0;
   
-  /// Create buffer sensor get
-  THSensorInfo_t sensorInfoGet;
-  
   /// Casting unused argument
   (void)argument;
   
   /// Config led7sed - initialize and display some thing at start up time
-  /* To do */
+  ledMatI_LedScannerInit();
   
   /// Loop forever
   while (1) {
-    /// Led scanner fast task called
-    led7SegI_LedScannerTask();
+    /// Fast task called
+    ledMatI_LedScannerTask();
     /// Counting for synch data get set
-    if (tick1msCount++ >= 1000) {
+    if (tick1msCount++ >= 500) {
       tick1msCount = 0;
-      if (pdPASS == xQueueReceive(xTHSensorQueue, &sensorInfoGet, QUEUE_GET_TIMEOUT)) {
-        led7SegI_UpdateData(sensorInfoGet.temperature, sensorInfoGet.humidity);
-      } else {
-        uart_debug("Os get error\n");
-      }
+      // Slow task inside fast task
+      ledMatI_UpdateData(1,1);
     }
     /// Delay until
     vTaskDelayUntil(&xNextWakeTime, xFrequency);

@@ -2,8 +2,6 @@
 /// @brief Temperature and humidity sensor function definition
 
 #include "UartDebug.h"
-#include "SensorHDC1080.h"
-#include "InterHDC1080.h"
 
 /// @brief HDC1080 Initialize function
 /// @param [in]  None 

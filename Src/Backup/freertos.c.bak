@@ -1,3 +1,4 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * File Name          : freertos.c
@@ -9,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * Copyright (c) 2020 STMicroelectronics International N.V. 
+  * Copyright (c) 2025 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -45,27 +46,48 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
 #include "task.h"
+#include "main.h"
 #include "cmsis_os.h"
 
+/* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */     
 
 /* USER CODE END Includes */
 
-/* Variables -----------------------------------------------------------------*/
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+/* USER CODE BEGIN Variables */
+QueueHandle_t xTHSensorQueue = NULL;
+/* USER CODE END Variables */
 osThreadId backGroundTaskHandle;
 osThreadId sensorSlowTaskHandle;
 osThreadId debugSlowTaskHandle;
 osThreadId led7segFastTaskHandle;
 
-/* USER CODE BEGIN Variables */
-QueueHandle_t xTHSensorQueue = NULL;
-/* USER CODE END Variables */
+/* Private function prototypes -----------------------------------------------*/
+/* USER CODE BEGIN FunctionPrototypes */
 
-/* Function prototypes -------------------------------------------------------*/
+/* USER CODE END FunctionPrototypes */
+
 void startBackgroundTask(void const * argument);
 extern void startSensorSlowTask1s(void const * argument);
 extern void startDebugSlowTask500ms(void const * argument);
@@ -73,14 +95,11 @@ extern void startLed7SegFastTask1ms(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
-/* USER CODE BEGIN FunctionPrototypes */
-
-/* USER CODE END FunctionPrototypes */
-
-/* Hook prototypes */
-
-/* Init FreeRTOS */
-
+/**
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
        
@@ -126,7 +145,13 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 }
 
-/* startBackgroundTask function */
+/* USER CODE BEGIN Header_startBackgroundTask */
+/**
+  * @brief  Function implementing the backGroundTask thread.
+  * @param  argument: Not used 
+  * @retval None
+  */
+/* USER CODE END Header_startBackgroundTask */
 void startBackgroundTask(void const * argument)
 {
 
@@ -139,6 +164,7 @@ void startBackgroundTask(void const * argument)
   /* USER CODE END startBackgroundTask */
 }
 
+/* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
      
 /* USER CODE END Application */

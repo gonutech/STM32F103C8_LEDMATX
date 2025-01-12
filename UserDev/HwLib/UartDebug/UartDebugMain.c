@@ -47,3 +47,10 @@ void uartDebugI_DebugSlowTask(void) {
   if (counter++ >= 9) counter = 0;
   // uart_debug("Tick\n");
 }
+
+// Interface function for printing some thing
+void uartDebugI_PrintDebugInfo(uint8_t * buffer, uint8_t size) {
+  // Send data
+  HAL_UART_Transmit(&huart2, (uint8_t *) buffer, size, HAL_MAX_DELAY);
+
+}

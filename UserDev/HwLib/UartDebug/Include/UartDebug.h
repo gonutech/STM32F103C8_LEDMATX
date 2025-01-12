@@ -28,3 +28,6 @@ void ledDebugI_SetStatus(Led_Status_t status);
 void ledDebugI_Toggle(void);
 
 void uartDebugI_DebugSlowTask(void);
+
+void uartDebugI_PrintDebugInfo(uint8_t * buffer, uint8_t size);
+

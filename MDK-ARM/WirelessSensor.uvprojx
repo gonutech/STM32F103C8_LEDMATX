@@ -336,7 +336,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;         ../Drivers/STM32F1xx_HAL_Driver/Inc;         ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;         ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;         ../Drivers/CMSIS/Device/ST/STM32F1xx/Include;         ../Middlewares/Third_Party/FreeRTOS/Source/include;         ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;         ../Drivers/CMSIS/Include;         ../UserDev/AppSW/TaskControl/Include;         ../UserDev/HwLib;         ..\UserDev\HwLib\UartDebug\Include;         ..\UserDev\HwLib\I2CSensorHDC1080\Include;         ..\UserDev\HwLib\SPISeg7LED\Include</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include;../UserDev/AppSW/TaskControl/Include;../UserDev/HwLib;..\UserDev\HwLib\UartDebug\Include;..\UserDev\HwLib\SPISeg7LED\Include;..\UserDev\HwLib\LedMat</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -481,11 +481,6 @@
               <FilePath>../Src/stm32f1xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/i2c.c</FilePath>
-            </File>
-            <File>
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/usart.c</FilePath>
@@ -601,29 +596,14 @@
               <FilePath>..\UserDev\HwLib\UartDebug\UartDebugMain.c</FilePath>
             </File>
             <File>
-              <FileName>SensorHDC1080Main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UserDev\HwLib\I2CSensorHDC1080\SensorHDC1080Main.c</FilePath>
-            </File>
-            <File>
-              <FileName>DriveHdc1080.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UserDev\HwLib\I2CSensorHDC1080\DriveHdc1080.c</FilePath>
-            </File>
-            <File>
-              <FileName>InterHDC1080.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UserDev\HwLib\I2CSensorHDC1080\InterHDC1080.c</FilePath>
-            </File>
-            <File>
-              <FileName>DriveSeg7Led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UserDev\HwLib\SPISeg7LED\DriveSeg7Led.c</FilePath>
-            </File>
-            <File>
               <FileName>Seg7LedMain.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\UserDev\HwLib\SPISeg7LED\Seg7LedMain.c</FilePath>
+            </File>
+            <File>
+              <FileName>MAX7219.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UserDev\HwLib\LedMat\MAX7219.c</FilePath>
             </File>
           </Files>
         </Group>

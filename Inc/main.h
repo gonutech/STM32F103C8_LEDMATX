@@ -100,10 +100,6 @@ void Error_Handler(void);
 #define SEG7LED_SPI2_CS_GPIO_Port GPIOB
 #define SEG7LED_SPI2_DIO_Pin GPIO_PIN_15
 #define SEG7LED_SPI2_DIO_GPIO_Port GPIOB
-#define HDC1080_SCL_Pin GPIO_PIN_6
-#define HDC1080_SCL_GPIO_Port GPIOB
-#define HDC1080_SDA_Pin GPIO_PIN_7
-#define HDC1080_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

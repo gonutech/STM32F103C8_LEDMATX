@@ -7,8 +7,11 @@
 #include "stdint.h"
 
 /// Interface function
-void led7SegI_LedScannerTask(void);
-void led7SegI_LedScannerInit(void);
-void led7SegI_UpdateData(uint16_t temp_int, uint16_t humi_int);
+void ledMatI_LedScannerInit(void);
+
+// Fast task 1ms
+void ledMatI_LedScannerTask(void);
+// Slow task 1s
+void ledMatI_UpdateData(uint16_t temp_int, uint16_t humi_int);
 
 #endif /* __SEG7LED_H__ */
